@@ -1,12 +1,15 @@
 package com.example.rv_od.datos2;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
@@ -83,8 +86,26 @@ public class MainActivity extends AppCompatActivity {
             while((linea = archivoLectura.readLine()) != null)
                         encabezado.append("\n" + linea);
 
+            //en esta linea creo un objeto llamado microSD, que sera de tipo directorio de memoria externa
+            File microSD = Environment.getExternalStorageDirectory();
+            //esta linea crea el directorio, en la memoria externa
+            File directorio = new File(microSD.getAbsolutePath()+"/carpeta1/carpeta2");
+            //esta linea crea los directorios
+            directorio.mkdirs();
+
+            //esta linea crea el arhivo html en el directorio que se creo
+            File archivo = new File(microSD.getAbsolutePath()+"/carpeta1/carpeta2", "archivoExterno.html");
+            OutputStreamWriter archivoEscrituraHTML = new OutputStreamWriter(
+                    new FileOutputStream(archivo));
+
+            archivoEscrituraHTML.write("<HTML><BODY BGCOLOR=#'336699'=><H1>SITIO WEB</H1></BODY></HTML>");
+            archivoEscrituraHTML.close();
+
+
         } catch (Exception e) {
             encabezado.setText("Se produjo un error al escribir: " + e.getMessage());
         }
     }
+
+
 }
